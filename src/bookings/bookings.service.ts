@@ -1,6 +1,5 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { CreateBookingDto } from './dto/create-booking.dto';
-import { UpdateBookingDto } from './dto/update-booking.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { BookingStatus } from '@prisma/client';
 
@@ -9,7 +8,7 @@ export class BookingsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createBookingDto: CreateBookingDto) {
-    // Rule 1: Check if the service exists
+    // Rule 1
     const service = await this.prisma.service.findUnique({
       where: { id: createBookingDto.serviceId },
     });
@@ -17,15 +16,16 @@ export class BookingsService {
       throw new NotFoundException('The requested service does not exist.');
     }
 
-    // Rule 2: Booking dates cannot be in the past
+    // Rule 2
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    // Convert string to proper Date object for Prisma
     const bookingDate = new Date(createBookingDto.bookingDate);
     if (bookingDate < today) {
       throw new BadRequestException('Booking date cannot be in the past.');
     }
 
-    // Extra Credit: Prevent duplicate bookings for same service, date, and time
+    // optional feature for checking the duplications
     const duplicate = await this.prisma.booking.findFirst({
       where: {
         serviceId: createBookingDto.serviceId,
@@ -41,7 +41,7 @@ export class BookingsService {
     return this.prisma.booking.create({
       data: {
         ...createBookingDto,
-        bookingDate: bookingDate, // Save it as a proper Date object
+        bookingDate: bookingDate, 
         status: BookingStatus.PENDING,
       },
     });
@@ -63,7 +63,7 @@ export class BookingsService {
   async updateStatus(id: number, status: BookingStatus) {
     const booking = await this.findOne(id);
 
-    // Rule 3: Cancelled bookings cannot be marked as completed
+    // Rule 3
     if (booking.status === BookingStatus.CANCELLED && status === BookingStatus.COMPLETED) {
       throw new BadRequestException('A cancelled booking cannot be marked as completed.');
     }
