@@ -3,9 +3,11 @@ import { ServicesService } from './services.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger'; 
 
+@ApiBearerAuth()
 @Controller('services')
-@UseGuards(AuthGuard) 
+@UseGuards(AuthGuard)
 export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}
 
