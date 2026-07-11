@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
-import { UpdateBookingDto } from './dto/update-booking.dto';
+import { BookingStatus } from '@prisma/client';
 
 @Controller('bookings')
 export class BookingsController {
@@ -22,13 +22,13 @@ export class BookingsController {
     return this.bookingsService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookingDto: UpdateBookingDto) {
-    return this.bookingsService.update(+id, updateBookingDto);
+  @Patch(':id/status')
+  updateStatus(@Param('id') id: string, @Body('status') status: BookingStatus) {
+    return this.bookingsService.updateStatus(+id, status);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.bookingsService.remove(+id);
+  cancel(@Param('id') id: string) {
+    return this.bookingsService.cancel(+id);
   }
 }
