@@ -1,98 +1,94 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+#  Booking Platform - EN2H Backend Assessment
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Project Overview
+This project is a fully working backend web server for a service booking platform. It handles secure user authentication, service management and appointment scheduling using RESTFul backend APIs.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+#### Key Technical Features:
+* **Core Architecture**: Designed using NestJS for modular scalability and Prisma ORM for type-safe database queries.
+* **Database**: Backed by a relational PostgreSQL database structure.
+* **Smart Business Logic**: Features custom validation to handle date/time checks, prevent double-bookings and track real-time slot availability.
+* **Data Integrity**: Uses soft-deletion to keep booking history without permanently deleting customer records.
 
-## Description
+## Installation Steps
+To get this project running on your local machine, follow these steps:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
+1. Clone the repository -
 
 ```bash
-$ npm install
+  git clone https://github.com/Michel2618/booking-platform-en2h.git
 ```
-
-## Compile and run the project
+2. Navigate to the project directory - 
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+  cd booking-platform-en2h
 ```
-
-## Run tests
+3. Install the required dependencies -
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+  npm install
 ```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+4. Generate the database client schema -
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+  npx prisma generate
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Environment Variables
+This application requires secure environment variables to connect to the database and sign authentication tokens. 
 
-## Resources
+Create a `.env` file in the root directory of the project (you can use the provided `.env.example` file as a template) and add the following lines:
 
-Check out a few resources that may come in handy when working with NestJS:
+```env
+# Replace with your actual PostgreSQL connection string
+DATABASE_URL="postgresql://username:password@hostname:5432/dbname?schema=public"
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# Replace with a secure random string for JSON Web Tokens
+JWT_SECRET="your_super_secret_jwt_key_here"
+```
 
-## Support
+## Database Setup
+This project uses a **PostgreSQL** database and integrates **Prisma ORM** for database management. The connection logic is optimized using the `@prisma/adapter-pg` and standard connection pooling, making it fully compatible with modern serverless database providers like Neon.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+To set up your database connection:
+1. Create a PostgreSQL database instance (either locally or via a cloud provider like Neon).
+2. Obtain your standard database connection string URI.
+3. Paste the connection string into your `.env` file under the `DATABASE_URL` variable.
 
-## Stay in touch
+*Note: The required database tables and relationships are already mapped out in the `prisma/schema.prisma` file.*
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Running Migrations
 
-## License
+To synchronize your database with the Prisma schema and create all the necessary tables, run the following command in your terminal:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```bash
+  npx prisma db push
+```
+## Running the Application
+
+To start the NestJS backend server in development mode, run:
+
+```Bash
+  npm run start:dev
+```
+
+## API Documentation
+This API is fully documented and interactive using **Swagger UI**. 
+Once the local server is running, you can access the documentation, view data schemas and test endpoints by navigating to:
+
+* **http://localhost:3000/api**
+
+*Note: To test protected endpoints (like creating or updating services), first execute the `POST /auth/login` endpoint to receive a JWT access token. Click the "Authorize" padlock icon at the top of the Swagger page and paste the token string to authenticate your session.*
+
+## Assumptions Made
+
+* **Canceling Bookings:** I assumed we shouldn't completely erase a booking from the database when it gets deleted. Instead, the system just changes its status to `CANCELLED` to keep a history of it. My code then safely frees up that time slot so another customer can book it.
+* **Security & Access:** I assumed that creating, updating, or deleting services is something only staff should do, so those actions require a user to be logged in with a token. However, creating a booking is for regular customers, so that route is public and works without needing an account.
+* **Dates and Times:** I assumed the frontend will send dates as simple text strings (like "2026-08-15"). The backend takes care of converting that text into a real date object before saving it to the database, which makes it easier to check for things like past dates.
+  
+
+## Future Improvements
+
+* **Simple User Roles:** Add basic "Admin" and "Customer" account types. This way, only admins have permission to add or edit services, while regular customers can only view their own booking history.
+* **Pagination and Filters:** Add page numbers and date filters to the bookings list. Right now it loads everything at once, so adding this will keep the app fast as the database gets bigger.
+* **Email Notifications:** Connect a basic email service to automatically send a message to the customer when their booking status changes to 'Confirmed' or 'Cancelled'.
+
