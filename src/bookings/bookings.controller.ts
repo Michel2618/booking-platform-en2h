@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { BookingStatus } from '@prisma/client';
+import { ApiBody } from '@nestjs/swagger'; 
 
 @Controller('bookings')
 export class BookingsController {
@@ -23,7 +24,21 @@ export class BookingsController {
   }
 
   @Patch(':id/status')
-  updateStatus(@Param('id') id: string, @Body('status') status: BookingStatus) {
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'string',
+          example: 'CONFIRMED'
+        }
+      }
+    }
+  })
+  updateStatus(
+    @Param('id') id: string, 
+    @Body('status') status: BookingStatus
+  ) {
     return this.bookingsService.updateStatus(+id, status);
   }
 

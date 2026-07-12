@@ -19,7 +19,7 @@ export class BookingsService {
     // Rule 2
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    // Convert string to proper Date object for Prisma
+
     const bookingDate = new Date(createBookingDto.bookingDate);
     if (bookingDate < today) {
       throw new BadRequestException('Booking date cannot be in the past.');
